@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thư Gửi Đến Người Đặc Biệt</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #ffc0cb, #ff69b4);
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            overflow: auto;
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .ticker {
+            position: relative;
+            width: 200px;
+            height: 200px;
+        }
+
+        .cat-animation {
+            width: 100%;
+            height: 100%;
+            background: url('mimibubu.gif') no-repeat center;
+            background-size: contain;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #ff69b4;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .button:hover {
+            background: #ff1493;
+            transform: scale(1.1);
+        }
+
+        .button.move {
+            position: absolute;
+            animation: moveButton 1.5s linear infinite;
+        }
+
+        @keyframes moveButton {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(10px, -10px); }
+            50% { transform: translate(-10px, 10px); }
+            75% { transform: translate(10px, 10px); }
+        }
+
+        .video-container {
+    margin: 20px 0;
+    position: relative;
+    width: 100%;
+    max-width: 360px;  /* Giới hạn chiều rộng cho video */
+    aspect-ratio: 9 / 16; /* Tỷ lệ 9:16 */
+    overflow: hidden; /* Ẩn phần video vượt quá container */
+    border-radius: 20px; /* Bo góc cho container */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Đổ bóng */
+}
+
+/* Điều chỉnh cho video bên trong */
+.video-container video {
+    width: 100%;  /* Chiều rộng video bằng 100% container */
+    height: 100%; /* Chiều cao video bằng 100% container */
+    object-fit: cover; /* Đảm bảo video không bị méo và bao phủ hết không gian */
+    border-radius: 20px; /* Bo góc cho video */
+}
+
+
+        .letter {
+            margin-top: 20px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .letter:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        h2 {
+            color: #ff1493;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p {
+            color: #fff;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            line-height: 1.6;
+        }
+
+        .letter-content {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            margin: 20px;
+        }
+
+        .letter-content p {
+            color: #333;
+            text-shadow: none;
+            font-size: 1rem;
+            text-align: left;
+        }
+        @media (max-width: 768px) {
+    body {
+        padding: 20px; /* Giảm padding cho các thiết bị nhỏ hơn */
+    }
+
+    .container {
+        padding: 10px; /* Giảm không gian thừa */
+    }
+
+    .button {
+        padding: 15px 25px; /* Tăng kích thước nút cho dễ nhấn */
+        font-size: 1rem; /* Giảm kích thước chữ để phù hợp với màn hình nhỏ */
+    }
+
+    .video-container img,
+    .video-container video {
+        width: 100%; /* Đảm bảo video và hình ảnh có thể thay đổi kích thước */
+    }
+
+    .letter-content {
+        max-width: 100%; /* Đảm bảo nội dung thư không quá rộng trên điện thoại */
+        padding: 15px; /* Giảm padding để có không gian tốt hơn */
+    }
+}
+
+@media (max-width: 480px) {
+    .button {
+        font-size: 1rem; /* Giảm kích thước chữ trên điện thoại nhỏ */
+        padding: 12px 20px;
+    }
+
+    .ticker {
+        width: 150px;
+        height: 150px; /* Giảm kích thước của hoạt ảnh cho màn hình nhỏ */
+    }
+
+    .cat-animation {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+    }
+}
+/* Container của slider */
+.slider-container {
+    position: relative;
+    width: 100%;
+    max-width: 360px;  /* Giới hạn chiều rộng của slider */
+    margin: 0 auto;
+    aspect-ratio: 9 / 16; /* Tỷ lệ 9:16 */
+}
+
+/* Slider chính */
+.slider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Wrapper chứa tất cả các ảnh */
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+/* Các slide */
+.slide {
+    min-width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    padding: 10px; /* Khoảng cách giữa ảnh và khung */
+    background-color: #fff; /* Màu nền khung ảnh */
+    border-radius: 15px; /* Viền bo góc */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Đổ bóng để làm nổi bật */
+    border: 2px solid #ddd; /* Viền mỏng xung quanh ảnh */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Hiệu ứng thay đổi khi hover */
+}
+
+/* Hiệu ứng khi hover (di chuột vào ảnh) */
+.slide:hover {
+    transform: scale(1.05); /* Phóng to ảnh một chút khi hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Đổ bóng mạnh hơn khi hover */
+}
+
+/* Ảnh */
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    border-radius: 10px; /* Bo góc ảnh */
+}
+
+/* Caption mô tả ảnh */
+.caption {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px; /* Bo góc caption */
+}
+
+/* Dấu chấm dưới ảnh */
+.dots {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.dot {
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.dot.active {
+    background-color: #717171;
+}
+
+/* Mũi tên điều hướng */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    cursor: pointer;
+    border-radius: 0 3px 3px 0;
+    transform: translateY(-50%);
+}
+
+.prev {
+    left: 0;
+}
+
+.next {
+    right: 0;
+}
+
+/* Mobile view */
+@media screen and (max-width: 768px) {
+    .slider-container {
+        max-width: 100%;
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container" id="page1">
+        <div class="ticker">
+            <div class="cat-animation"></div>
+        </div>
+        <p>Chào Kimm Hiềnn, lâu ngày không gặp...</p>
+        <p>Em có sẵn lòng nghe những lời tâm sự từ trái tim này không?</p>
+        <button class="button" onclick="nextPage(2); startMusic()">Dạ vâng ạ</button>
+        <button class="button move">Khum có rảnh</button>
+    </div>
+
+    <div class="container hidden" id="page2">
+        <h2>Kỷ Niệm Đầu Tiên</h2>
+        <div class="video-container">
+            <video controls>
+                <source src="video1.mp4" type="video/mp4">
+            </video>
+        </div>
+        <button class="button" onclick="nextPage(3)">Tiếp Tục</button>
+    </div>
+
+    <div class="container hidden" id="page3">
+      <h2>Kỷ Niệm Đẹp - Page 3</h2>
+      <div class="slider-container" id="slider-page3">
+          <div class="slider">
+              <div class="slider-wrapper">
+                  <div class="slide">
+                      <img src="photo1.jpg" alt="Ảnh 1">
+                      <div class="caption">Mô tả Ảnh 1</div>
+                  </div>
+                  <div class="slide">
+                      <img src="photo2.jpg" alt="Ảnh 2">
+                      <div class="caption">Mô tả Ảnh 2</div>
+                  </div>
+                  <div class="slide">
+                      <img src="photo3.jpg" alt="Ảnh 3">
+                      <div class="caption">Mô tả Ảnh 3</div>
+                  </div>
+                  <div class="slide">
+                      <img src="photo4.jpg" alt="Ảnh 4">
+                      <div class="caption">Mô tả Ảnh 4</div>
+                  </div>
+              </div>
+              <button class="prev" onclick="moveSlide(-1, 'page3')">&#10094;</button>
+              <button class="next" onclick="moveSlide(1, 'page3')">&#10095;</button>
+          </div>
+          <div class="dots">
+              <span class="dot" onclick="currentSlide(1, 'page3')"></span>
+              <span class="dot" onclick="currentSlide(2, 'page3')"></span>
+              <span class="dot" onclick="currentSlide(3, 'page3')"></span>
+              <span class="dot" onclick="currentSlide(4, 'page3')"></span>
+          </div>
+      </div>
+      <button class="button" onclick="nextPage(4)">Tiếp Tục</button>
+  </div>
+  
+  
+
+  <div class="container hidden" id="page4">
+    <h2>Kỷ Niệm Đẹp - Page 4</h2>
+    <div class="slider-container" id="slider-page4">
+        <div class="slider">
+            <div class="slider-wrapper">
+                <div class="slide">
+                    <img src="photo1.jpg" alt="Ảnh 1">
+                    <div class="caption">Mô tả Ảnh 1</div>
+                </div>
+                <div class="slide">
+                    <img src="photo2.jpg" alt="Ảnh 2">
+                    <div class="caption">Mô tả Ảnh 2</div>
+                </div>
+                <div class="slide">
+                    <img src="photo3.jpg" alt="Ảnh 3">
+                    <div class="caption">Mô tả Ảnh 3</div>
+                </div>
+                <div class="slide">
+                    <img src="photo4.jpg" alt="Ảnh 4">
+                    <div class="caption">Mô tả Ảnh 4</div>
+                </div>
+            </div>
+            <button class="prev" onclick="moveSlide(-1, 'page4')">&#10094;</button>
+            <button class="next" onclick="moveSlide(1, 'page4')">&#10095;</button>
+        </div>
+        <div class="dots">
+            <span class="dot" onclick="currentSlide(1, 'page4')"></span>
+            <span class="dot" onclick="currentSlide(2, 'page4')"></span>
+            <span class="dot" onclick="currentSlide(3, 'page4')"></span>
+            <span class="dot" onclick="currentSlide(4, 'page4')"></span>
+        </div>
+    </div>
+    <button class="button" onclick="nextPage(5)">Tiếp Tục</button>
+</div>
+
+
+    <div class="container hidden" id="page5">
+      <h2>Bức Thư của Huy</h2>
+      <!-- GIF chỉ hiển thị 1 lần và sẽ thay đổi khi nhấn -->
+      <img src="love-7233.gif" class="letter" alt="Thư đóng" onclick="openLetter()">
+      <!-- Nội dung thư sẽ xuất hiện sau khi nhấn vào GIF -->
+      <div class="letter-content hidden" id="letterContent">
+          <p>Hi Kim Hiền,</p>
+          <p>Dạo này em thế nào? Cuộc sống ở Cần Thơ có giống như những gì em mong muốn không, hay vẫn đang thử thách em như cách em từng thử thách anh?</p>
+          <p>Đã lâu rồi kể từ ngày mình không nói chuyện, anh cứ nghĩ thời gian sẽ làm cảm xúc của anh dành cho em bớt đi, nhưng không ngờ nó lại giống như wifi yếu – càng xa em, kết nối lại càng chập chờn mà nghĩ về em thì lại rõ nét hơn. Đến hôm nay, chỉ cần nghe ai đó nhắc tên em thôi, tim anh vẫn loạn nhịp.</p>
+          <p>Những ký ức về em vẫn in đậm trong đầu anh. Face ID của anh mỗi lần sai là nhập mã bảo mật – và mã ấy, em đoán đúng rồi đấy, chính là ngày sinh của em. Những tấm ảnh em từng gửi, anh vẫn cất giữ kỹ càng. Anh nhớ rõ những lần mình trò chuyện, cả những lần mình gặp nhau. Nhớ những lần em giận dỗi, mà lần nào anh cũng tự nhủ: "Thôi, chắc game over rồi!" Nhớ nhất là lúc em mệt mỏi, lúc đó anh chỉ biết lo sợ mình sẽ không còn cơ hội được bên em nữa.</p>
+          <p>Có lẽ anh đã từng sai, từng khiến em buồn, từng chưa đủ tốt để giữ em ở bên. Nhưng tình cảm của anh là thật, chưa từng thay đổi. Dù em đã từng nói rằng anh không đủ "Trình" để chinh phục em, anh vẫn muốn thử, một lần nữa, từ tận trái tim mình. Người trong lòng khó ai có thể thay thế, và anh nghĩ rằng, có lẽ lúc đó anh chưa đủ kiên nhẫn để hiểu được em thật sự muốn gì.</p>
+          <p>Hôm nay anh viết những dòng này, không mong em phải làm gì cả. Anh chỉ hy vọng "Nếu em cho anh một cơ hội, anh sẽ không để lãng phí nó." Có những điều đặc biệt mà anh vẫn chưa kịp làm cho em, và anh thật lòng mong có thể thực hiện được.</p>
+      </div>
+  </div>
+
+    <script>
+        let currentPage = 1;
+        const audio = new Audio('your-music.mp3'); // Thay bằng đường dẫn chính xác của bạn
+
+        function nextPage(page) {
+            document.getElementById(`page${currentPage}`).classList.add('hidden');
+            document.getElementById(`page${page}`).classList.remove('hidden');
+            currentPage = page;
+        }
+
+        function openLetter() {
+    // Ẩn ảnh GIF khi nhấn vào
+    document.querySelector('.letter').classList.add('hidden');
+    // Hiển thị nội dung thư
+    document.getElementById('letterContent').classList.remove('hidden');
+}
+
+
+        function startMusic() {
+            audio.play()
+                .then(() => {
+                    console.log('Âm nhạc đã bắt đầu phát.');
+                })
+                .catch(error => {
+                    console.error('Không thể phát nhạc:', error);
+                });
+        }
+
+        document.querySelector('.button.move').addEventListener('mouseover', function() {
+            this.style.top = `${Math.random() * 300}px`;
+            this.style.left = `${Math.random() * 300}px`;
+        });
+        let currentIndexPage3 = 0;
+let currentIndexPage4 = 0;
+
+function moveSlide(step, page) {
+    const slides = document.querySelectorAll(`#slider-${page} .slide`);
+    const totalSlides = slides.length;
+
+    if (page === 'page3') {
+        currentIndexPage3 += step;
+        if (currentIndexPage3 < 0) {
+            currentIndexPage3 = totalSlides - 1;
+        } else if (currentIndexPage3 >= totalSlides) {
+            currentIndexPage3 = 0;
+        }
+        updateSlider(page, currentIndexPage3);
+    } else if (page === 'page4') {
+        currentIndexPage4 += step;
+        if (currentIndexPage4 < 0) {
+            currentIndexPage4 = totalSlides - 1;
+        } else if (currentIndexPage4 >= totalSlides) {
+            currentIndexPage4 = 0;
+        }
+        updateSlider(page, currentIndexPage4);
+    }
+}
+
+function currentSlide(index, page) {
+    if (page === 'page3') {
+        currentIndexPage3 = index - 1;
+        updateSlider(page, currentIndexPage3);
+    } else if (page === 'page4') {
+        currentIndexPage4 = index - 1;
+        updateSlider(page, currentIndexPage4);
+    }
+}
+
+function updateSlider(page, index) {
+    const slides = document.querySelectorAll(`#slider-${page} .slide`);
+    const dots = document.querySelectorAll(`#slider-${page} .dot`);
+
+    // Di chuyển slider đến đúng ảnh
+    document.querySelector(`#slider-${page} .slider-wrapper`).style.transform = `translateX(-${index * 100}%)`;
+
+    // Cập nhật dấu chấm
+    dots.forEach((dot, i) => {
+        dot.classList.remove('active');
+        if (i === index) {
+            dot.classList.add('active');
+        }
+    });
+}
+
+// Khởi tạo slider
+updateSlider('page3', currentIndexPage3);
+updateSlider('page4', currentIndexPage4);
+
+    </script>
+</body>
+</html>
